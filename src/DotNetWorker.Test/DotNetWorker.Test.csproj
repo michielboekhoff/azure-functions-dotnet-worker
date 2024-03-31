@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFrameworks>net5.0;net6.0;net7.0;netstandard2.0</TargetFrameworks>
+    <PackageId>Microsoft.Azure.Functions.Worker.Test</PackageId>
+    <Description>This library offers a testing implementation for testing your Azure Functions</Description>
+    <AssemblyName>Microsoft.Azure.Functions.Worker.Test</AssemblyName>
+    <RootNamespace>Microsoft.Azure.Functions.Worker.Test</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <MinorProductVersion>16</MinorProductVersion>
+    <PatchProductVersion>0</PatchProductVersion>
+    <VersionSuffix></VersionSuffix>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <Import Project="..\..\build\Common.props" />
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Threading.Channels" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Core" Version="1.37.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.25.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\..\protos\azure-functions-language-worker-protobuf\**\*.proto" ProtoRoot="..\..\protos\azure-functions-language-worker-protobuf\src\proto" GrpcServices="Client" Access="internal" />
+
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0'">
+    <Compile Remove="ChannelReaderExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\extensions\Worker.Extensions.Abstractions\src\Worker.Extensions.Abstractions.csproj" />
+    <ProjectReference Include="..\DotNetWorker.Core\DotNetWorker.Core.csproj" />
+  </ItemGroup>
+
+</Project>
+
